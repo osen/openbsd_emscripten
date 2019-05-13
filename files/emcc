@@ -1,0 +1,23 @@
+#!/bin/sh
+
+#
+# A terrible way to get path and prefix of executing script.
+# (More portable than procfs however).
+#
+BINPATH=`which "$0"` 2>/dev/null
+
+if [ -z "$BINPATH" ]; then
+  BINPATH="$0"
+fi
+
+BINPATH=`dirname "$BINPATH"`
+
+CURRDIR=`pwd`
+cd "$BINPATH"
+cd ..
+PREFIX=`pwd`
+cd "$CURRDIR"
+
+export PATH=$PREFIX/emscripten:$PATH
+BINNAME=`basename "$0"`
+"$BINNAME" "$@"

@@ -1,0 +1,21 @@
+$OpenBSD$
+
+Index: fastcomp/cmake/config-ix.cmake
+--- fastcomp/cmake/config-ix.cmake.orig
++++ fastcomp/cmake/config-ix.cmake
+@@ -191,9 +191,12 @@ endif()
+ 
+ # function checks
+ check_symbol_exists(arc4random "stdlib.h" HAVE_DECL_ARC4RANDOM)
+-find_package(Backtrace)
+-set(HAVE_BACKTRACE ${Backtrace_FOUND})
+-set(BACKTRACE_HEADER ${Backtrace_HEADER})
++
++if(NOT CMAKE_HOST_SYSTEM_NAME MATCHES "OpenBSD")
++  find_package(Backtrace)
++  set(HAVE_BACKTRACE ${Backtrace_FOUND})
++  set(BACKTRACE_HEADER ${Backtrace_HEADER})
++endif()
+ 
+ # Prevent check_symbol_exists from using API that is not supported for a given
+ # deployment target.
