@@ -18,6 +18,12 @@ cd ..
 PREFIX=`pwd`
 cd "$CURRDIR"
 
+export EMSCRIPTEN="$PREFIX/emscripten"
+export LLVM="$PREFIX/emscripten/fastcomp/bin"
+export BINARYEN="$PREFIX/emscripten/binaryen"
+
+export PATH=$PREFIX/emscripten/fastcomp/bin:$PATH
+export PATH=$PREFIX/emscripten/binaryen/bin:$PATH
 export PATH=$PREFIX/emscripten:$PATH
 BINNAME=`basename "$0"`
 "$BINNAME" "$@"

@@ -18,6 +18,7 @@ DISTFILES=	emscripten-{emscripten/archive/}${DISTNAME}${EXTRACT_SUFX}:0 \
 
 HOMEPAGE=	https://emscripten.org/
 
+#MIT
 PERMIT_PACKAGE_CDROM=	Yes
 
 WRKDIST=${WRKDIR}/work
@@ -34,14 +35,14 @@ do-configure:
 	mkdir ${WRKBUILD}/binaryen/build
 
 	cd ${WRKBUILD}/binaryen/build && cmake .. \
-		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_BUILD_TYPE=MinSizeRel \
 		-DCMAKE_INSTALL_PREFIX=${WRKBUILD}/emscripten/binaryen
 
 	rm -r -f ${WRKBUILD}/fastcomp/build
 	mkdir ${WRKBUILD}/fastcomp/build
 
 	cd ${WRKBUILD}/fastcomp/build && cmake .. \
-		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_BUILD_TYPE=MinSizeRel \
 		-DCMAKE_INSTALL_PREFIX=${WRKBUILD}/emscripten/fastcomp \
 		-DLLVM_TARGETS_TO_BUILD="host;JSBackend" \
 		-DLLVM_INCLUDE_EXAMPLES=OFF \
@@ -60,7 +61,7 @@ do-build:
 	cd ${WRKBUILD}/fastcomp && cmake --build build --target install
 
 do-install:
-	cp -r "${WRKSRC}/emscripten" "${PREFIX}/emscripten"
+	cp -r "${WRKBUILD}/emscripten" "${PREFIX}/emscripten"
 	cat "${FILESDIR}/emcc" > "${PREFIX}/bin/emcc"
 	chmod +x "${PREFIX}/bin/emcc"
 	cp "${PREFIX}/bin/emcc" "${PREFIX}/bin/em++"
@@ -68,5 +69,8 @@ do-install:
 	cp "${PREFIX}/bin/emcc" "${PREFIX}/bin/emcmake"
 	cp "${PREFIX}/bin/emcc" "${PREFIX}/bin/emconfigure"
 	cp "${PREFIX}/bin/emcc" "${PREFIX}/bin/emrun"
+
+post-install:
+	ln -s "${PREFIX}/bin/python3" "${PREFIX}/emscripten/python"
 
 .include <bsd.port.mk>
