@@ -9,6 +9,11 @@ DIST_SUBDIR=	emscripten
 
 CATEGORIES=	devel
 
+HOMEPAGE=	https://emscripten.org/
+
+#MIT
+PERMIT_PACKAGE_CDROM=	Yes
+
 MASTER_SITES0=	https://github.com/emscripten-core/
 MASTER_SITES1=	https://github.com/WebAssembly/
 DISTFILES=	emscripten-{emscripten/archive/}${DISTNAME}${EXTRACT_SUFX}:0 \
@@ -16,16 +21,20 @@ DISTFILES=	emscripten-{emscripten/archive/}${DISTNAME}${EXTRACT_SUFX}:0 \
 		fastcomp-clang-{emscripten-fastcomp-clang/archive/}${DISTNAME}${EXTRACT_SUFX}:0 \
 		binaryen-{binaryen/archive/}${DISTNAME}${EXTRACT_SUFX}:1
 
-HOMEPAGE=	https://emscripten.org/
+LIB_DEPENDS=	textproc/libxml
 
-#MIT
-PERMIT_PACKAGE_CDROM=	Yes
+BUILD_DEPENDS=	lang/gcc/4.9 \
+		devel/cmake \
+		lang/python/3.6
+
+RUN_DEPENDS=	lang/node
 
 WRKDIST=${WRKDIR}/work
 
 post-extract:
 	mkdir ${WRKDIST}
 	mv ${WRKDIR}/emscripten-${VERSION} ${WRKDIST}/emscripten
+	rm -r -f ${WRKDIST}/emscripten/.*
 	mv ${WRKDIR}/emscripten-fastcomp-${VERSION} ${WRKDIST}/fastcomp
 	mv ${WRKDIR}/emscripten-fastcomp-clang-${VERSION} ${WRKDIST}/fastcomp/tools/clang
 	mv ${WRKDIR}/binaryen-${VERSION} ${WRKDIST}/binaryen
@@ -35,14 +44,16 @@ do-configure:
 	mkdir ${WRKBUILD}/binaryen/build
 
 	cd ${WRKBUILD}/binaryen/build && cmake .. \
-		-DCMAKE_BUILD_TYPE=MinSizeRel \
+		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=${WRKBUILD}/emscripten/binaryen
 
 	rm -r -f ${WRKBUILD}/fastcomp/build
 	mkdir ${WRKBUILD}/fastcomp/build
 
 	cd ${WRKBUILD}/fastcomp/build && cmake .. \
-		-DCMAKE_BUILD_TYPE=MinSizeRel \
+		-DCMAKE_CXX_COMPILER=eg++ \
+		-DCMAKE_C_COMPILER=egcc \
+		-DCMAKE_BUILD_TYPE=Release \
 		-DCMAKE_INSTALL_PREFIX=${WRKBUILD}/emscripten/fastcomp \
 		-DLLVM_TARGETS_TO_BUILD="host;JSBackend" \
 		-DLLVM_INCLUDE_EXAMPLES=OFF \
@@ -69,8 +80,11 @@ do-install:
 	cp "${PREFIX}/bin/emcc" "${PREFIX}/bin/emcmake"
 	cp "${PREFIX}/bin/emcc" "${PREFIX}/bin/emconfigure"
 	cp "${PREFIX}/bin/emcc" "${PREFIX}/bin/emrun"
+	cat "${FILESDIR}/python" > "${PREFIX}/emscripten/python"
+	chmod +x "${PREFIX}/emscripten/python"
 
-post-install:
-	ln -s "${PREFIX}/bin/python3" "${PREFIX}/emscripten/python"
+# Script easier to use for PLIST generation
+#post-install:
+#	ln -s "${PREFIX}/bin/python3" "${PREFIX}/emscripten/python"
 
 .include <bsd.port.mk>
