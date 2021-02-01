@@ -1,90 +1,81 @@
 COMMENT=	toolchain for compiling C and C++ to asm.js and WebAssembly
-
+VERSION=	2.0.12
 PKGNAME=	emscripten-${VERSION}
-VERSION=	1.38.31
 REVISION=	1
-
-DISTNAME=	${VERSION}
 DIST_SUBDIR=	emscripten
-
 CATEGORIES=	devel
-
 HOMEPAGE=	https://emscripten.org/
 
-#MIT
-PERMIT_PACKAGE_CDROM=	Yes
+LLVM_VERSION=	12.0.0-rc1
+BINARYEN_VERSION=	99
+
+# MIT
+PERMIT_PACKAGE=	Yes
 
 MASTER_SITES0=	https://github.com/emscripten-core/
-MASTER_SITES1=	https://github.com/WebAssembly/
-DISTFILES=	emscripten-{emscripten/archive/}${DISTNAME}${EXTRACT_SUFX}:0 \
-		fastcomp-{emscripten-fastcomp/archive/}${DISTNAME}${EXTRACT_SUFX}:0 \
-		fastcomp-clang-{emscripten-fastcomp-clang/archive/}${DISTNAME}${EXTRACT_SUFX}:0 \
-		binaryen-{binaryen/archive/}${DISTNAME}${EXTRACT_SUFX}:1
+MASTER_SITES1=	https://github.com/llvm/
+MASTER_SITES2=	https://github.com/WebAssembly/
 
-LIB_DEPENDS=	textproc/libxml
+#llvm{llvm-project/archive/llvmorg}-${LLVM_VERSION}${EXTRACT_SUFX}:1 \
+#llvm-current{llvm-project/archive/main}${EXTRACT_SUFX}:1 \
 
-BUILD_DEPENDS=	lang/gcc/4.9 \
-		devel/cmake \
-		lang/python/3.6
+DISTFILES=	emscripten-{emscripten/archive/}${VERSION}${EXTRACT_SUFX}:0 \
+		llvm{llvm-project/archive/llvmorg}-${LLVM_VERSION}${EXTRACT_SUFX}:1 \
+		binaryen-{binaryen/archive/version_}${BINARYEN_VERSION}${EXTRACT_SUFX}:2
 
+BUILD_DEPENDS=	devel/cmake
+
+LIB_DEPENDS=	lang/python/3.8
 RUN_DEPENDS=	lang/node
 
-WRKDIST=${WRKDIR}/work
+#mv "${WRKDIR}/llvm-project-llvmorg-${LLVM_VERSION}" "${WRKDIR}/llvm"
+#mv "${WRKDIR}/llvm-project-main" "${WRKDIR}/llvm"
 
 post-extract:
-	mkdir ${WRKDIST}
-	mv ${WRKDIR}/emscripten-${VERSION} ${WRKDIST}/emscripten
-	rm -r -f ${WRKDIST}/emscripten/.*
-	mv ${WRKDIR}/emscripten-fastcomp-${VERSION} ${WRKDIST}/fastcomp
-	mv ${WRKDIR}/emscripten-fastcomp-clang-${VERSION} ${WRKDIST}/fastcomp/tools/clang
-	mv ${WRKDIR}/binaryen-${VERSION} ${WRKDIST}/binaryen
+	mv "${WRKDIR}/binaryen-version_${BINARYEN_VERSION}" "${WRKDIR}/binaryen"
+	mv "${WRKDIR}/emscripten-${VERSION}" "${WRKDIR}/emscripten"
+	mv "${WRKDIR}/llvm-project-llvmorg-${LLVM_VERSION}" "${WRKDIR}/llvm"
+
+#-DLLVM_TARGETS_TO_BUILD="host;WebAssembly" \
 
 do-configure:
-	rm -r -f ${WRKBUILD}/binaryen/build
-	mkdir ${WRKBUILD}/binaryen/build
+	mkdir "${WRKDIR}/llvm/build"
 
-	cd ${WRKBUILD}/binaryen/build && cmake .. \
+	cd "${WRKDIR}/llvm/build" && cmake \
 		-DCMAKE_BUILD_TYPE=Release \
-		-DCMAKE_INSTALL_PREFIX=${WRKBUILD}/emscripten/binaryen
-
-	rm -r -f ${WRKBUILD}/fastcomp/build
-	mkdir ${WRKBUILD}/fastcomp/build
-
-	cd ${WRKBUILD}/fastcomp/build && cmake .. \
-		-DCMAKE_CXX_COMPILER=eg++ \
-		-DCMAKE_C_COMPILER=egcc \
-		-DCMAKE_BUILD_TYPE=Release \
-		-DCMAKE_INSTALL_PREFIX=${WRKBUILD}/emscripten/fastcomp \
-		-DLLVM_TARGETS_TO_BUILD="host;JSBackend" \
+		-DCMAKE_INSTALL_PREFIX="${WRKDIR}/emscripten/llvm" \
+		-DCMAKE_DISABLE_FIND_PACKAGE_LibXml2:Bool=True \
+		-DCMAKE_DISABLE_FIND_PACKAGE_Backtrace:Bool=True \
+		-DLLVM_VERSION_SUFFIX='' \
+		-DLLVM_ENABLE_PROJECTS='lld;clang' \
+		-DLLVM_TARGETS_TO_BUILD="WebAssembly" \
+		-DLLVM_LINK_LLVM_DYLIB:Bool=True \
+		-DLLVM_BUILD_LLVM_DYLIB:Bool=True \
 		-DLLVM_INCLUDE_EXAMPLES=OFF \
 		-DLLVM_INCLUDE_TESTS=OFF \
-		-DCLANG_INCLUDE_TESTS=OFF
+		../llvm
+
+	mkdir "${WRKDIR}/binaryen/build"
+	cd "${WRKDIR}/binaryen/build" && cmake \
+		-DCMAKE_BUILD_TYPE=Release \
+		-DCMAKE_INSTALL_PREFIX="${WRKDIR}/emscripten/binaryen" \
+		..
+
+	cd "${WRKDIR}/emscripten" && rm -r .*
+	cd "${WRKDIR}/emscripten" && rm *.bat
+	cd "${WRKDIR}/emscripten" && npm ci --no-optional --ignore-scripts
 
 do-build:
-	rm -r -f ${WRKBUILD}/wbin
-	mkdir ${WRKBUILD}/wbin
-	ln -s /usr/local/bin/python3 ${WRKBUILD}/wbin/python
-
-	rm -r -f ${WRKBUILD}/emscripten/binaryen
-	cd ${WRKBUILD}/binaryen && PATH=${PATH}:${WRKBUILD}/wbin cmake --build build --target install
-
-	rm -r -f ${WRKBUILD}/emscripten/fastcomp
-	cd ${WRKBUILD}/fastcomp && cmake --build build --target install
+	cd "${WRKDIR}/llvm" && cmake --build build
+	cd "${WRKDIR}/llvm" && cmake --build build --target install
+	cd "${WRKDIR}/binaryen" && cmake --build build
+	cd "${WRKDIR}/binaryen" && cmake --build build --target install
 
 do-install:
-	cp -r "${WRKBUILD}/emscripten" "${PREFIX}/emscripten"
-	cat "${FILESDIR}/emcc" > "${PREFIX}/bin/emcc"
-	chmod +x "${PREFIX}/bin/emcc"
-	cp "${PREFIX}/bin/emcc" "${PREFIX}/bin/em++"
-	cp "${PREFIX}/bin/emcc" "${PREFIX}/bin/emmake"
-	cp "${PREFIX}/bin/emcc" "${PREFIX}/bin/emcmake"
-	cp "${PREFIX}/bin/emcc" "${PREFIX}/bin/emconfigure"
-	cp "${PREFIX}/bin/emcc" "${PREFIX}/bin/emrun"
-	cat "${FILESDIR}/python" > "${PREFIX}/emscripten/python"
-	chmod +x "${PREFIX}/emscripten/python"
-
-# Script easier to use for PLIST generation
-#post-install:
-#	ln -s "${PREFIX}/bin/python3" "${PREFIX}/emscripten/python"
+	cp -rv "${WRKDIR}/emscripten" "${PREFIX}/libexec/emscripten"
+	install "${FILESDIR}/site_emscripten" "${PREFIX}/libexec/emscripten/.emscripten"
+	install "${FILESDIR}/emcc" "${PREFIX}/bin/emcc"
+	install "${FILESDIR}/emcc" "${PREFIX}/bin/em++"
 
 .include <bsd.port.mk>
+

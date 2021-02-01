@@ -1,5 +1,3 @@
-Emscripten is a source-to-source compiler that runs as a back end
-to the LLVM compiler and produces a subset of JavaScript known as
-asm.js. It can also produce WebAssembly. This allows applications
-and libraries originally designed to run as standard executables
-to be integrated into client side web applications.
+Emscripten is an LLVM-based compiler that compiles C and C++ source
+code to either WebAssembly or a subset of JavaScript known as asm.js,
+primarily for execution in web browsers.

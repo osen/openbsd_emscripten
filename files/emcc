@@ -1,29 +1,20 @@
 #!/bin/sh
 
-#
-# A terrible way to get path and prefix of executing script.
-# (More portable than procfs however).
-#
-BINPATH=`which "$0"` 2>/dev/null
+# Find absolute path of Emscripten
+PREFIX="$(cd "$(dirname "$(which "$0")")" && cd .. && pwd)"
+EMDIR="$PREFIX/libexec/emscripten"
+BASENAME="$(basename "$0")"
+EMPROG="$EMDIR/$BASENAME"
 
-if [ -z "$BINPATH" ]; then
-  BINPATH="$0"
-fi
+# Emscripten now correctly finds python
+#export PYTHON=python3.8
 
-BINPATH=`dirname "$BINPATH"`
+# Environmental variables for the site_emscripten script to use
+export EMSCRIPTEN="$EMDIR"
+export LLVM="$EMDIR/llvm/bin"
+export BINARYEN="$EMDIR/binaryen"
+export NODE=node
+export JAVA=java
 
-CURRDIR=`pwd`
-cd "$BINPATH"
-cd ..
-PREFIX=`pwd`
-cd "$CURRDIR"
-
-export EMSCRIPTEN="$PREFIX/emscripten"
-export LLVM="$PREFIX/emscripten/fastcomp/bin"
-export BINARYEN="$PREFIX/emscripten/binaryen"
-
-export PATH=$PREFIX/emscripten/fastcomp/bin:$PATH
-export PATH=$PREFIX/emscripten/binaryen/bin:$PATH
-export PATH=$PREFIX/emscripten:$PATH
-BINNAME=`basename "$0"`
-"$BINNAME" "$@"
+# Forward arguments to respective script in Emscripten directory
+exec "$EMPROG" "$@"
