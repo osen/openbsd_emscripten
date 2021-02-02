@@ -24,9 +24,10 @@ DISTFILES=	emscripten-{emscripten/archive/}${VERSION}${EXTRACT_SUFX}:0 \
 		binaryen-{binaryen/archive/version_}${BINARYEN_VERSION}${EXTRACT_SUFX}:2
 
 BUILD_DEPENDS=	devel/cmake
+LIB_DEPENDS=	lang/python/3.8 \
+		lang/node
 
-LIB_DEPENDS=	lang/python/3.8
-RUN_DEPENDS=	lang/node
+#RUN_DEPENDS=	lang/node
 
 #mv "${WRKDIR}/llvm-project-llvmorg-${LLVM_VERSION}" "${WRKDIR}/llvm"
 #mv "${WRKDIR}/llvm-project-main" "${WRKDIR}/llvm"
@@ -72,7 +73,7 @@ do-build:
 	cd "${WRKDIR}/binaryen" && cmake --build build --target install
 
 do-install:
-	cp -rv "${WRKDIR}/emscripten" "${PREFIX}/libexec/emscripten"
+	cp -Rv "${WRKDIR}/emscripten" "${PREFIX}/libexec/emscripten"
 	install "${FILESDIR}/site_emscripten" "${PREFIX}/libexec/emscripten/.emscripten"
 	install "${FILESDIR}/emcc" "${PREFIX}/bin/emcc"
 	install "${FILESDIR}/emcc" "${PREFIX}/bin/em++"

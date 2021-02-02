@@ -25,13 +25,6 @@ libexec/emscripten/binaryen/include/
 libexec/emscripten/binaryen/include/binaryen-c.h
 libexec/emscripten/binaryen/lib/
 @so libexec/emscripten/binaryen/lib/libbinaryen.so
-@static-lib libexec/emscripten/cache/wasm/libc++-noexcept.a
-@static-lib libexec/emscripten/cache/wasm/libc++abi-noexcept.a
-@static-lib libexec/emscripten/cache/wasm/libc.a
-@static-lib libexec/emscripten/cache/wasm/libc_rt_wasm.a
-@static-lib libexec/emscripten/cache/wasm/libcompiler_rt.a
-@static-lib libexec/emscripten/cache/wasm/libdlmalloc.a
-@static-lib libexec/emscripten/cache/wasm/libsockets.a
 libexec/emscripten/cmake/
 libexec/emscripten/cmake/Modules/
 libexec/emscripten/cmake/Modules/CMakeSystemSpecificInformation.cmake
@@ -81,12 +74,12 @@ libexec/emscripten/llvm/
 libexec/emscripten/llvm/bin/
 @bin libexec/emscripten/llvm/bin/bugpoint
 @bin libexec/emscripten/llvm/bin/c-index-test
-@bin libexec/emscripten/llvm/bin/clang
-@bin libexec/emscripten/llvm/bin/clang++
+libexec/emscripten/llvm/bin/clang
+libexec/emscripten/llvm/bin/clang++
 @bin libexec/emscripten/llvm/bin/clang-12
 @bin libexec/emscripten/llvm/bin/clang-check
-@bin libexec/emscripten/llvm/bin/clang-cl
-@bin libexec/emscripten/llvm/bin/clang-cpp
+libexec/emscripten/llvm/bin/clang-cl
+libexec/emscripten/llvm/bin/clang-cpp
 @bin libexec/emscripten/llvm/bin/clang-extdef-mapping
 @bin libexec/emscripten/llvm/bin/clang-format
 @bin libexec/emscripten/llvm/bin/clang-offload-bundler
@@ -98,18 +91,18 @@ libexec/emscripten/llvm/bin/
 @bin libexec/emscripten/llvm/bin/dsymutil
 libexec/emscripten/llvm/bin/git-clang-format
 libexec/emscripten/llvm/bin/hmaptool
-@bin libexec/emscripten/llvm/bin/ld.lld
-@bin libexec/emscripten/llvm/bin/ld64.lld
-@bin libexec/emscripten/llvm/bin/ld64.lld.darwinnew
+libexec/emscripten/llvm/bin/ld.lld
+libexec/emscripten/llvm/bin/ld64.lld
+libexec/emscripten/llvm/bin/ld64.lld.darwinnew
 @bin libexec/emscripten/llvm/bin/llc
 @bin libexec/emscripten/llvm/bin/lld
-@bin libexec/emscripten/llvm/bin/lld-link
+libexec/emscripten/llvm/bin/lld-link
 @bin libexec/emscripten/llvm/bin/lli
-@bin libexec/emscripten/llvm/bin/llvm-addr2line
+libexec/emscripten/llvm/bin/llvm-addr2line
 @bin libexec/emscripten/llvm/bin/llvm-ar
 @bin libexec/emscripten/llvm/bin/llvm-as
 @bin libexec/emscripten/llvm/bin/llvm-bcanalyzer
-@bin libexec/emscripten/llvm/bin/llvm-bitcode-strip
+libexec/emscripten/llvm/bin/llvm-bitcode-strip
 @bin libexec/emscripten/llvm/bin/llvm-c-test
 @bin libexec/emscripten/llvm/bin/llvm-cat
 @bin libexec/emscripten/llvm/bin/llvm-cfi-verify
@@ -121,7 +114,7 @@ libexec/emscripten/llvm/bin/hmaptool
 @bin libexec/emscripten/llvm/bin/llvm-cxxmap
 @bin libexec/emscripten/llvm/bin/llvm-diff
 @bin libexec/emscripten/llvm/bin/llvm-dis
-@bin libexec/emscripten/llvm/bin/llvm-dlltool
+libexec/emscripten/llvm/bin/llvm-dlltool
 @bin libexec/emscripten/llvm/bin/llvm-dwarfdump
 @bin libexec/emscripten/llvm/bin/llvm-dwp
 @bin libexec/emscripten/llvm/bin/llvm-elfabi
@@ -129,9 +122,9 @@ libexec/emscripten/llvm/bin/hmaptool
 @bin libexec/emscripten/llvm/bin/llvm-extract
 @bin libexec/emscripten/llvm/bin/llvm-gsymutil
 @bin libexec/emscripten/llvm/bin/llvm-ifs
-@bin libexec/emscripten/llvm/bin/llvm-install-name-tool
+libexec/emscripten/llvm/bin/llvm-install-name-tool
 @bin libexec/emscripten/llvm/bin/llvm-jitlink
-@bin libexec/emscripten/llvm/bin/llvm-lib
+libexec/emscripten/llvm/bin/llvm-lib
 @bin libexec/emscripten/llvm/bin/llvm-libtool-darwin
 @bin libexec/emscripten/llvm/bin/llvm-link
 @bin libexec/emscripten/llvm/bin/llvm-lipo
@@ -149,9 +142,9 @@ libexec/emscripten/llvm/bin/hmaptool
 @bin libexec/emscripten/llvm/bin/llvm-pdbutil
 @bin libexec/emscripten/llvm/bin/llvm-profdata
 @bin libexec/emscripten/llvm/bin/llvm-profgen
-@bin libexec/emscripten/llvm/bin/llvm-ranlib
+libexec/emscripten/llvm/bin/llvm-ranlib
 @bin libexec/emscripten/llvm/bin/llvm-rc
-@bin libexec/emscripten/llvm/bin/llvm-readelf
+libexec/emscripten/llvm/bin/llvm-readelf
 @bin libexec/emscripten/llvm/bin/llvm-readobj
 @bin libexec/emscripten/llvm/bin/llvm-reduce
 @bin libexec/emscripten/llvm/bin/llvm-rtdyld
@@ -159,7 +152,7 @@ libexec/emscripten/llvm/bin/hmaptool
 @bin libexec/emscripten/llvm/bin/llvm-split
 @bin libexec/emscripten/llvm/bin/llvm-stress
 @bin libexec/emscripten/llvm/bin/llvm-strings
-@bin libexec/emscripten/llvm/bin/llvm-strip
+libexec/emscripten/llvm/bin/llvm-strip
 @bin libexec/emscripten/llvm/bin/llvm-symbolizer
 @bin libexec/emscripten/llvm/bin/llvm-tblgen
 @bin libexec/emscripten/llvm/bin/llvm-undname
@@ -171,7 +164,7 @@ libexec/emscripten/llvm/bin/scan-build
 libexec/emscripten/llvm/bin/scan-view
 @bin libexec/emscripten/llvm/bin/split-file
 @bin libexec/emscripten/llvm/bin/verify-uselistorder
-@bin libexec/emscripten/llvm/bin/wasm-ld
+libexec/emscripten/llvm/bin/wasm-ld
 libexec/emscripten/llvm/include/
 libexec/emscripten/llvm/include/clang/
 libexec/emscripten/llvm/include/clang-c/
@@ -14125,20 +14118,7 @@ libexec/emscripten/third_party/websockify/tests/base64.js
 libexec/emscripten/third_party/websockify/tests/echo.html
 libexec/emscripten/third_party/websockify/tests/echo.py
 libexec/emscripten/third_party/websockify/tests/echo.rb
-libexec/emscripten/third_party/websockify/tests/include/
-libexec/emscripten/third_party/websockify/tests/include/VT100.js
-libexec/emscripten/third_party/websockify/tests/include/base64.js
-libexec/emscripten/third_party/websockify/tests/include/keysym.js
-libexec/emscripten/third_party/websockify/tests/include/util.js
-libexec/emscripten/third_party/websockify/tests/include/web-socket-js/
-libexec/emscripten/third_party/websockify/tests/include/web-socket-js/README.txt
-libexec/emscripten/third_party/websockify/tests/include/web-socket-js/WebSocketMain.swf
-libexec/emscripten/third_party/websockify/tests/include/web-socket-js/swfobject.js
-libexec/emscripten/third_party/websockify/tests/include/web-socket-js/web_socket.js
-libexec/emscripten/third_party/websockify/tests/include/websock.js
-libexec/emscripten/third_party/websockify/tests/include/webutil.js
-libexec/emscripten/third_party/websockify/tests/include/wsirc.js
-libexec/emscripten/third_party/websockify/tests/include/wstelnet.js
+libexec/emscripten/third_party/websockify/tests/include
 libexec/emscripten/third_party/websockify/tests/latency.html
 libexec/emscripten/third_party/websockify/tests/latency.py
 libexec/emscripten/third_party/websockify/tests/load.html
@@ -14161,28 +14141,6 @@ libexec/emscripten/third_party/websockify/wsirc.html
 libexec/emscripten/third_party/websockify/wstelnet.html
 libexec/emscripten/tools/
 libexec/emscripten/tools/__init__.py
-libexec/emscripten/tools/__pycache__/
-libexec/emscripten/tools/__pycache__/__init__.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/building.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/cache.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/colored_logger.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/config.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/deps_info.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/diagnostics.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/filelock.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/gen_struct_info.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/js_manipulation.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/js_optimizer.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/line_endings.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/minimal_runtime_shell.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/response_file.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/shared.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/system_libs.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/tempfiles.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/toolchain_profiler.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/utils.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/wasm2c.cpython-37.pyc
-libexec/emscripten/tools/__pycache__/webassembly.cpython-37.pyc
 libexec/emscripten/tools/acorn-optimizer.js
 libexec/emscripten/tools/add_license.py
 libexec/emscripten/tools/building.py
@@ -14238,28 +14196,6 @@ libexec/emscripten/tools/maybe_wasm2js.py
 libexec/emscripten/tools/minimal_runtime_shell.py
 libexec/emscripten/tools/ports/
 libexec/emscripten/tools/ports/__init__.py
-libexec/emscripten/tools/ports/__pycache__/
-libexec/emscripten/tools/ports/__pycache__/__init__.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/boost_headers.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/bullet.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/bzip2.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/cocos2d.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/freetype.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/harfbuzz.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/icu.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/libjpeg.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/libpng.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/mpg123.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/ogg.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/regal.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/sdl2.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/sdl2_gfx.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/sdl2_image.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/sdl2_mixer.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/sdl2_net.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/sdl2_ttf.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/vorbis.cpython-37.pyc
-libexec/emscripten/tools/ports/__pycache__/zlib.cpython-37.pyc
 libexec/emscripten/tools/ports/boost_headers.py
 libexec/emscripten/tools/ports/bullet.py
 libexec/emscripten/tools/ports/bzip2.py
